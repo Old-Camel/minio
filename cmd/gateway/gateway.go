@@ -25,6 +25,8 @@ import (
 	// Azure
 	_ "github.com/minio/minio/cmd/gateway/azure"
 
+	// OSS
+	_ "github.com/minio/minio/cmd/gateway/oss"
 	// S3
 	_ "github.com/minio/minio/cmd/gateway/s3"
 

@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-storage-blob-go/azblob"
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"google.golang.org/api/googleapi"
 
 	minio "github.com/minio/minio-go/v7"
@@ -2080,6 +2081,7 @@ func toAPIError(ctx context.Context, err error) APIError {
 				Description:    e.Error(),
 				HTTPStatusCode: http.StatusBadRequest,
 			}
+
 		case crypto.Error:
 			apiErr = APIError{
 				Code:           "XMinIOEncryptionError",
@@ -2110,6 +2112,14 @@ func toAPIError(ctx context.Context, err error) APIError {
 				Description:    e.Error(),
 				HTTPStatusCode: e.Response().StatusCode,
 			}
+
+		case oss.ServiceError:
+			apiErr = APIError{
+				Code:           e.Code,
+				Description:    e.Message,
+				HTTPStatusCode: e.StatusCode,
+			}
+
 			// Add more Gateway SDKs here if any in future.
 		}
 	}
